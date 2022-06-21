@@ -5,8 +5,11 @@ const authorController=require("../Controllers/authorController")
 const blogController=require("../Controllers/blogController")
 
 
+
 router.post("/authors",authorController.createAuthor)
 router.post("/blogs",blogController.createBlog)
+router.put("/blogUpdate",blogController.blogUpdate)
+
 
 
 module.exports=router;
