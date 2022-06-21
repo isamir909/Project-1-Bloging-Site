@@ -7,6 +7,7 @@ const createBlog = async function(req, res){
     try{
         let data = req.body
 <<<<<<< HEAD
+<<<<<<< HEAD
         let Id = data.AuthorId
         let authId = await AuthorModel.findById(Id) 
         
@@ -22,16 +23,13 @@ const createBlog = async function(req, res){
     return res.status(400).send({ msg: "empty field" })}
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> 671f4234a30561f6ea05d5ca3fc8d63d02f638c2
         let Id = data.authorId
         let authorId = await AuthorModel.findById(Id)
         if(!authId) res.status(400).send({msg:"The AuthorId That You Have written is Invalid"})
         publishedAt = new Date().to
 
-=======
-        authorid=req.body.authorid
-        AuthorModel.
-        if(authorid)
->>>>>>> b447c5d59a41677f0f94f628eac306572be16206
         let savedData = await blogModel.create(data)
 >>>>>>> f5d8a8eb709e314c1350a024ded2de8821384d37
 
@@ -49,13 +47,6 @@ const createBlog = async function(req, res){
 
 
 
-
-
-
-
-
-
-
-
-    
     module.exports.createBlog = createBlog
+    module.exports.createBlogData = createBlogData
+    
