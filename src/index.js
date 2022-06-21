@@ -1,9 +1,12 @@
 const express=require('express');
-const bodyParser=('body-parser');
+const bodyParser=require('body-parser');
+
 const route=require('./routes/route');
 const app=express();
+const { default: mongoose } = require('mongoose');
 
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({extended:true}));
 
 mongoose.connect("mongodb+srv://samirlohiya909:Lohiya123@samirlohiya.nszppy8.mongodb.net/Project-1?retryWrites=true&w=majority", {

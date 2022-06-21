@@ -1,32 +1,34 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 
-const AuthorSchema = new mongoose.schema({
-
+const AuthorSchema = new mongoose.Schema({
+   
     title:{
-        require: true,
-        enum: ['Mr','Miss','Miss']
+        type:String,
+        required: true,
+        enum: ["Mr","Mrs","Miss"]
     },
     
     firstName:{
         type: String,
-        require: true
+        required: true
     },
 
     LastName:{
         type: String,
-        require:true
+        required:true
     },
 
     email:{
+        type:String,
         unique:true,
-        require:true
+        required:true
     },
 
     password:{
         type:String,
-        require:true
-    }
+        required:true
+    },
 },{timestamps:true});
 
 
