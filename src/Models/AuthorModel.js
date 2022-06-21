@@ -5,7 +5,7 @@ const AuthorSchema = new mongoose.schema({
 
     title:{
         require: true,
-        enum: [Mr,Miss,Miss]
+        enum: ["Mr","Miss","Miss"]
     },
     
     firstName:{
@@ -24,11 +24,10 @@ const AuthorSchema = new mongoose.schema({
     },
 
     password:{
-        type:String,
+        type:password,
         require:true
-    },
+    }
 },{timestamps:true});
 
-// module.exports = mongoose.model('Author',AuthorSchema)
+
 module.exports = mongoose.model('Author',AuthorSchema)
-// dfdfghdfgd
