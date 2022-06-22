@@ -1,17 +1,21 @@
-const{application} = require ('express');
-const express=require('express');
-const router =express.Router();
-const authorController=require("../Controllers/authorController")
-const blogController=require("../Controllers/blogController")
-const jscontroller=require("../Controllers/jscontroller")
+const { application } = require("express");
+const express = require("express");
+const router = express.Router();
+const authorController = require("../Controllers/authorController");
+const blogController = require("../Controllers/blogController");
 
-
-router.post("/authors",authorController.createAuthor)
-router.post("/blogs",blogController.createBlog)
-router.put("/blogUpdate",blogController.blogUpdate)
+const deletecontroller= require("../Controllers/delete")
 
 
 
-router.get("/getblog",jscontroller.getblog)
 
-module.exports=router;
+
+
+router.post("/blogs",blogController.createBlog) //done
+router.post("/authors", authorController.createAuthor);   //done
+router.get("/blogs", blogController.getblog); //error
+router.put("/blogs/:blogId",blogController.updateBlogsById) //done
+router.delete("/blogs/:blogId",blogController.isdeleted);    //done
+router.delete("/blogs", blogController.deleteByQuarry)  //to be check
+
+module.exports = router;

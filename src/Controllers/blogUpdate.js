@@ -14,7 +14,7 @@ const blogUpdate = async function (req,res){
         msg:err.message
         })
 }
-
+}
 
 module.exports.blogUpdate = blogUpdate
 
