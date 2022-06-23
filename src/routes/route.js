@@ -19,9 +19,10 @@ router.post("/authors", authorController.createAuthor);   //all done
 
 router.put("/blogs/:blogId",Authentication,Authorization,blogController.updateBlogsById) // code edge case "if input is empty" , authentication done, authorization done
 
-router.delete("/blogs/:blogId",Authentication,Authorization,blogController.isdeleted);  //  code done , authentication to be check 
+router.delete("/blogs/:blogId",Authentication,Authorization,blogController.isdeleted);  //  code done , authentication,auth All done 
 router.delete("/blogs",Authentication, blogController.deleteByQuarry)  //to be check code and Authentication
 
 router.post("/login",authorController.loginauth) //done all 
 
 module.exports = router;
+
