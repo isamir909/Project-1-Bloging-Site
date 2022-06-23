@@ -1,6 +1,7 @@
 const authorModel = require("../Models/AuthorModel");
 let validator = require("validator");
 let evalidator = require("email-validator");
+let jwt = require("jsonwebtoken");
 
 const createAuthor = async function (req, res) {
   try {
@@ -8,9 +9,13 @@ const createAuthor = async function (req, res) {
 
     // email validation
     let validate = evalidator.validate(data.email);
-
+    //if input is empty
+    if (Object.keys(data).length == 0)
+      return res.status(400).send({ msg: " object can not be empty" });
     if (validate == false)
-      return res.status(400).send({ msg: "You have entered an invalid email address!" });
+      return res
+        .status(400)
+        .send({ msg: "You have entered an invalid email address!" });
 
     // name alphabatic  validation
 
@@ -59,3 +64,44 @@ const createAuthor = async function (req, res) {
 };
 
 module.exports.createAuthor = createAuthor;
+
+// FOR  LOGIN
+let loginauth = async function (req, res) {
+  try {
+    let data = req.body;
+    const { email, password } = data;
+
+    // if input field is empty
+    if (email.trim() == "" && password.trim() == "")
+      return res
+        .status(400)
+        .send({ msg: "email and password can not be empty" });
+
+    // if user not found
+    let validateEmail = await authorModel.findOne({ email: email });
+    if (!validateEmail) return res.status(400).send({ msg: "user not found" });
+
+    // if password is wrong
+    let validateAuthor = await authorModel.findOne({
+      email: email,
+      password: password,
+    });
+    if (!validateAuthor)
+      return res.status(403).send({ msg: "invalid password" });
+    //403 Forbidden uch as insufficient rights to a resource.
+
+    let key = jwt.sign(
+      {
+        id: validateAuthor._id.toString(),
+      },
+      "Blog site project, team No.= 12"
+    );
+
+    res.setHeader("x-api-key", key);
+    res.status(200).send({ key: key });
+  } catch (error) {
+    res.status(500).send({ msg: error.message });
+  }
+};
+
+module.exports.loginauth = loginauth;
