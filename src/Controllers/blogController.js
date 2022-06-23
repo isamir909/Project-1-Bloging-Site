@@ -38,50 +38,11 @@ module.exports.createBlog = createBlog;
 
 
 //vaishnavi   + error
-const getblog = async function (req,res) {
-  try{
-  let query = req.query
-  let data = await blogModel.find({$and:[query,{isDeleted:false},{isPublished:true}]});
-  
-  if(data.length==0)return res.status(404).send({status:"False",msg:"The Data You Found Is not Present"}) 
-
-  if(Object.keys(req.query).length==0){
-   return res.status(200).send({status:true,data:data})
-  }else{
-   if(req.query.tag ){
-         const getblog = await blogModel.find({tag:{$in:[ req.query.tag]},isDeleted:false,isPublished:true});
-         if(filterData.length==0) return res.status(404).send({status:false,msg:"not found blog"})
-         return res.status(200).send({status:true,data:filterData})
-
-   }else if (req.query.subcatogry){
-         const getblog = await blogModel.find({subcategory:{$in:[ req.query.subcatogry ]},isDeleted:false, isPublished:true});
-         if(filterData = await blogModel.find({subcategory:{$in: [ req.query.subcategory ]}, isDeleted:false, isPublished:true}));
-         return res.status(200).send({status:true, data:filterData})
-   
-   }
-   if (req.query.authorId){
-         if(!mongoose.isValidObjectId(req.query.authorId))return res.status(400).send({status: false, msg:"please enter valid authorId"})
-
-   }
-   const getblog = await blogModel.find(req.query);
-      const isDeletAndISpublished = filterData.filter(ele => !ele.isDeleted && ele.isPublished);
-   if(filterData.length <= 0) return res.status(404).send({status:false, msg:"Not found blog"})
-   return res.status(200).send({status:true, data:isDeletAndISpublished})
-
-   }
-
-}
-
-catch (err) {
- console.log(err.message);
- res.status(500).send({ status: false, msg: err.message })
-}
-
-}
+// const getblog = async function (req,res)
 
 
 
-module.exports.getblog=getblog
+
 
 
 // ### PUT /blogs/:blogId
