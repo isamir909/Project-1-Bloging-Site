@@ -3,7 +3,6 @@ let validator = require("validator");
 let evalidator = require("email-validator");
 let jwt = require("jsonwebtoken");
 
-
 //written by samir
 const createAuthor = async function (req, res) {
   try {
@@ -73,15 +72,15 @@ let loginauth = async function (req, res) {
     let { email, password } = data;
 
     //if input is null
-    if (typeof password  == "object" || typeof email  == "object" )
-    return res.status(400).send({ msg: "input data can not be null" });
+    if (typeof password == "object" || typeof email == "object")
+      return res.status(400).send({ msg: "input data can not be null" });
 
     // if input field is empty
     if (email.trim() == "" || password.trim() == "")
       return res
         .status(400)
         .send({ msg: "email and password can not be empty" });
-          // email validation
+    // email validation
     let validate = evalidator.validate(email);
     if (validate == false)
       return res
@@ -114,24 +113,6 @@ let loginauth = async function (req, res) {
 
 module.exports.loginauth = loginauth;
 module.exports.createAuthor = createAuthor;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // let email = data.email.split(" ").join("").trim();
 // let password = data.password.split(" ").join("").trim();

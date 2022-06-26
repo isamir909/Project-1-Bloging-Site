@@ -15,7 +15,7 @@ const { Authentication, Authorization,AuthorizationToCreate } = require("../midd
 router.post("/blogs", Authentication,AuthorizationToCreate, blogController.createBlog) 
 router.post("/authors", authorController.createAuthor);  
 router.post("/login", authorController.loginauth) 
-router.get("/blogs",blogController.getBlogs); //error in code
+router.get("/blogs",Authentication,blogController.getBlogs); //error in code
 
 
 router.put("/blogs/:blogId",Authentication,Authorization, blogController.updateBlogsById) 
