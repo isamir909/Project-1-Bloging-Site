@@ -9,12 +9,12 @@ const AuthorSchema = new mongoose.Schema({
         enum: ["Mr","Mrs","Miss"]
     },
     
-    firstName:{
+    fname:{
         type: String,
         required: true
     },
 
-    LastName:{
+    lname:{
         type: String,
         required:true
     },

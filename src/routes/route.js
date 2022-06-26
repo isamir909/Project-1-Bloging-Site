@@ -3,26 +3,27 @@ const express = require("express")
 const router = express.Router();
 const authorController = require("../Controllers/authorController");
 const blogController = require("../Controllers/blogController");
-const {Authentication, Authorization} = require("../middleware/authentication");
+const { Authentication, Authorization,AuthorizationToCreate } = require("../middleware/authentication");
 
-// const deletecontroller= require("../Controllers/delete")
+
 
 
 
 // create a blog, edit a blog, get the list of blogs, delete a blog(s)
 
 
-router.post("/blogs",Authentication,blogController.createBlog) // code , authentication  All done
-router.post("/authors", authorController.createAuthor);   //all done
+router.post("/blogs", Authentication,AuthorizationToCreate, blogController.createBlog) 
+router.post("/authors", authorController.createAuthor);  
+router.post("/login", authorController.loginauth) 
+router.get("/blogs",blogController.getBlogs); //error in code
 
-// router.get("/blogs",Authentication, blogController.getblog); //error in code
 
-router.put("/blogs/:blogId",Authentication,Authorization,blogController.updateBlogsById) // code edge case "if input is empty" , authentication done, authorization done
+router.put("/blogs/:blogId",Authentication,Authorization, blogController.updateBlogsById) 
 
-router.delete("/blogs/:blogId",Authentication,Authorization,blogController.isdeleted);  //  code done , authentication,auth All done 
-router.delete("/blogs",Authentication, blogController.deleteByQuarry)  //to be check code and Authentication
+router.delete("/blogs/:blogId", Authentication, Authorization, blogController.isdeleted); 
+router.delete("/blogs", Authentication, blogController.deleteByQuarry)  //
 
-router.post("/login",authorController.loginauth) //done all 
+
 
 module.exports = router;
 

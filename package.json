@@ -7,6 +7,7 @@
     "match": "^1.2.10",
     "mongoose": "^6.4.0",
     "nodemon": "^2.0.16",
+    "replace": "^1.2.1",
     "validator": "^13.7.0"
   }
 }

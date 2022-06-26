@@ -1,5 +1,6 @@
 let jwt = require("jsonwebtoken");
 const blogModel = require("../Models/BlogModel");
+const authorModel = require("../Models/AuthorModel");
 
 let Authentication = async function (req, res, next) {
   try {
@@ -14,10 +15,12 @@ let Authentication = async function (req, res, next) {
     next();
   } catch (error) {
     return res.status(500).send({ err: error.message });
-  }
+  } 
 };
 
 module.exports.Authentication = Authentication;
+
+
 
 let Authorization = async function (req, res, next) {
   try {
@@ -27,21 +30,16 @@ let Authorization = async function (req, res, next) {
       logedInUserKey,
       "Blog site project, team No.= 12"
     );
-
-  
-
     logedinUserID = decodeToken.id;
-  
+ 
     requestBlogId = req.params.blogId.toString();
     if (requestBlogId.length < 24)
-    return res.status(400).send({ msg: "enter valit blogid" });
-
+      return res.status(400).send({ msg: "enter valit blogid" });
 
     findAuthorID = await blogModel.findOne({ _id: requestBlogId });
-        if(!findAuthorID)return res.status(404).send({err:"id not found "}) 
+    if (!findAuthorID) return res.status(404).send({ err: "id not found " });
 
-  let  authorID = findAuthorID.AuthorId.toString();
-  
+    let authorID = findAuthorID.AuthorId.toString();
 
     if (logedinUserID != authorID)
       return res.status(401).send({ msg: "logedin user is not authorized " });
@@ -53,3 +51,37 @@ let Authorization = async function (req, res, next) {
   }
 };
 module.exports.Authorization = Authorization;
+
+
+// Authorization for creating blog
+
+let AuthorizationToCreate= async function (req, res, next) {
+  try {
+    let logedInUserKey = req.headers["x-api-key"] || req.headers["X-Api-Key"];
+
+    let decodeToken = jwt.verify(
+      logedInUserKey,
+      "Blog site project, team No.= 12"
+    );
+    logedinUserID = decodeToken.id;
+ 
+    requestAuthorId = req.body.AuthorId.toString();
+    if (requestAuthorId.length < 24)
+      return res.status(400).send({ msg: "enter valit AuthorID" });
+
+    findAuthorID = await authorModel.findOne({ _id: requestAuthorId });
+    if (!findAuthorID) return res.status(404).send({ err: "Author id id not found " });
+
+    let authorID = findAuthorID._id.toString();
+
+    if (logedinUserID != authorID)
+      return res.status(401).send({ msg: "logedin user is not authorized To create blog " });
+
+    next();
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ err: error.message });
+  }
+}; 
+
+module.exports.AuthorizationToCreate=AuthorizationToCreate

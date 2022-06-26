@@ -3,15 +3,42 @@ let validator = require("validator");
 let evalidator = require("email-validator");
 let jwt = require("jsonwebtoken");
 
+
+//written by samir
 const createAuthor = async function (req, res) {
   try {
     let data = req.body;
+    let { email, fname, title, lname, password } = data;
+    let array1 = [email, fname, title, lname, password];
+    let arrayOfString = ["email", "fname", "title", "lname", "password"];
+
+    //if input is empty
+    if (Object.keys(data).length == 0)
+      return res.status(400).send({ msg: " input object can not be empty" });
+
+    for (let i = 0; i < array1.length; i++) {
+      // required field verification
+      let value = arrayOfString[i];
+      if (!(value in data))
+        return res.status(422).send({ msg: value + " " + "is required field" });
+      // status code  422 (Unprocessable Entity)
+
+      // condition for empty fields
+      if (array1[i].trim() == "")
+        return res
+          .status(400)
+          .send({ msg: arrayOfString[i] + " " + " can not be empty" });
+
+      //data type verification
+      let type = typeof array1[i];
+      if (type == "object")
+        return res.status(400).send({ msg: "input data can not be null" });
+      if (array1[i].toLowerCase() == "undefined")
+        return res.status(400).send({ msg: "input data can not be undefined" });
+    }
 
     // email validation
     let validate = evalidator.validate(data.email);
-    //if input is empty
-    if (Object.keys(data).length == 0)
-      return res.status(400).send({ msg: " object can not be empty" });
     if (validate == false)
       return res
         .status(400)
@@ -19,39 +46,13 @@ const createAuthor = async function (req, res) {
 
     // name alphabatic  validation
 
-    let LnameValidate = validator.isAlpha(data.LastName);
-    let FnameValidate = validator.isAlpha(data.firstName);
+    let LnameValidate = validator.isAlpha(data.lname);
+    let FnameValidate = validator.isAlpha(data.fname);
 
     if (LnameValidate == false || FnameValidate == false)
       return res
         .status(400)
         .send({ err: "LastName and firstName must be between A-z or a-z " });
-
-    // required field verification
-    if (
-      !("password" in data) ||
-      !("email" in data) ||
-      !("LastName" in data) ||
-      !("firstName" in data) ||
-      !("title" in data)
-    )
-      return res.status(422).send({
-        msg: "password,email,LastName,firstName,title are required fields",
-      });
-
-    // status code  422 (Unprocessable Entity)
-
-    // condition for empty fields
-    if (
-      data.password.trim() == "" ||
-      data.email.trim() == "" ||
-      data.LastName.trim() == "" ||
-      data.firstName.trim() == "" ||
-      data.title.trim() == ""
-    )
-      return res.status(400).send({
-        msg: "password,email,LastName,firstName,title can not be empty",
-      });
 
     if (!["Mr", "Mrs", "Miss"].includes(data.title.trim()))
       return res.status(400).send({ msg: "title must be  Mr,Mrs or Miss" });
@@ -59,40 +60,47 @@ const createAuthor = async function (req, res) {
     let savedData = await authorModel.create(data);
     res.status(201).send({ msg: savedData });
   } catch (error) {
+    console.log(error);
     res.status(500).send({ msg: error.message });
   }
 };
 
-module.exports.createAuthor = createAuthor;
-
+//written by samir
 // FOR  LOGIN
 let loginauth = async function (req, res) {
   try {
     let data = req.body;
-    const { email, password } = data;
+    let { email, password } = data;
+
+    //if input is null
+    if (typeof password  == "object" || typeof email  == "object" )
+    return res.status(400).send({ msg: "input data can not be null" });
 
     // if input field is empty
-    if (email.trim() == "" && password.trim() == "")
+    if (email.trim() == "" || password.trim() == "")
       return res
         .status(400)
         .send({ msg: "email and password can not be empty" });
+          // email validation
+    let validate = evalidator.validate(email);
+    if (validate == false)
+      return res
+        .status(400)
+        .send({ msg: "You have entered an invalid email address!" });
 
     // if user not found
     let validateEmail = await authorModel.findOne({ email: email });
     if (!validateEmail) return res.status(400).send({ msg: "user not found" });
 
     // if password is wrong
-    let validateAuthor = await authorModel.findOne({
-      email: email,
-      password: password,
-    });
-    if (!validateAuthor)
+
+    if (validateEmail.password != password)
       return res.status(403).send({ msg: "invalid password" });
     //403 Forbidden uch as insufficient rights to a resource.
 
     let key = jwt.sign(
       {
-        id: validateAuthor._id.toString(),
+        id: validateEmail._id.toString(),
       },
       "Blog site project, team No.= 12"
     );
@@ -105,3 +113,25 @@ let loginauth = async function (req, res) {
 };
 
 module.exports.loginauth = loginauth;
+module.exports.createAuthor = createAuthor;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let email = data.email.split(" ").join("").trim();
+// let password = data.password.split(" ").join("").trim();
