@@ -26,7 +26,7 @@ let Authorization = async function (req, res, next) {
   try {
     let logedInUserKey = req.headers["x-api-key"] || req.headers["X-Api-Key"];
 
-    let decodeToken = jwt.verify(
+    let decodeToken = jwt.verify( 
       logedInUserKey,
       "Blog site project, team No.= 12"
     );
@@ -39,7 +39,7 @@ let Authorization = async function (req, res, next) {
     findAuthorID = await blogModel.findOne({ _id: requestBlogId });
     if (!findAuthorID) return res.status(404).send({ err: "id not found " });
 
-    let authorID = findAuthorID.AuthorId.toString();
+    let authorID = findAuthorID.authorId.toString();
 
     if (logedinUserID != authorID)
       return res.status(401).send({ msg: "logedin user is not authorized " });
@@ -55,7 +55,7 @@ module.exports.Authorization = Authorization;
 
 // Authorization for creating blog
 
-let AuthorizationToCreate= async function (req, res, next) {
+let AuthorizationToQuary= async function (req, res, next) {
   try {
     let logedInUserKey = req.headers["x-api-key"] || req.headers["X-Api-Key"];
 
@@ -64,13 +64,18 @@ let AuthorizationToCreate= async function (req, res, next) {
       "Blog site project, team No.= 12"
     );
     logedinUserID = decodeToken.id;
- 
-    requestAuthorId = req.body.AuthorId.toString();
-    if (requestAuthorId.length < 24)
-      return res.status(400).send({ msg: "enter valit AuthorID" });
+    
+    requestAuthorId = req.body.authorId //.toString();
+    if(!requestAuthorId)requestAuthorId=req.query.authorId //.toString();
+    if(!requestAuthorId) return res.status(400).send({err:"please enter authorID"}) //.toString();
+
+   
+    if(requestAuthorId.length != 24) return res.status(400).send({ msg: "enter valid AuthorID" });
+    
+     
 
     findAuthorID = await authorModel.findOne({ _id: requestAuthorId });
-    if (!findAuthorID) return res.status(404).send({ err: "Author id id not found " });
+    if (!findAuthorID) return res.status(404).send({ err: "Author id  not found " });
 
     let authorID = findAuthorID._id.toString();
 
@@ -84,4 +89,4 @@ let AuthorizationToCreate= async function (req, res, next) {
   }
 }; 
 
-module.exports.AuthorizationToCreate=AuthorizationToCreate
+module.exports.AuthorizationToQuary=AuthorizationToQuary

@@ -11,7 +11,7 @@ const BlogSchema = new mongoose.Schema(
       required: true,
       type: String,
     },
-    AuthorId: {
+    authorId: {
       type: ObjectId,
       ref: "Author",
       required: true,
@@ -41,7 +41,7 @@ const BlogSchema = new mongoose.Schema(
       default: false,
     },
     publishedAt: { type: Date },
-
+    
     deletedAt: { type: Date },
   },
   { timestamps: true }

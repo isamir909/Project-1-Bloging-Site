@@ -56,6 +56,8 @@ const createAuthor = async function (req, res) {
     if (!["Mr", "Mrs", "Miss"].includes(data.title.trim()))
       return res.status(400).send({ msg: "title must be  Mr,Mrs or Miss" });
 
+      let checkAuthor= await authorModel.findOne({email:email})
+      if(checkAuthor)return res.status(400).send({err:"this email is already in use"})
     let savedData = await authorModel.create(data);
     res.status(201).send({ msg: savedData });
   } catch (error) {

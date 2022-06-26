@@ -1,6 +1,8 @@
 const express=require('express');
+//Node.js web application framework that provides a robust set of features to develop web and mobile applications.
 const bodyParser=require('body-parser');
-
+//body-parser − This is a node.js middleware for handling JSON, Raw, Text and URL encoded form data.
+// Body-parser is the Node.js body parsing middleware. It is responsible for parsing the incoming request bodies in a middleware before you handle it.
 const route=require('./routes/route');
 const app=express();
 const { default: mongoose } = require('mongoose');
