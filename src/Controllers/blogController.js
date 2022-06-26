@@ -9,32 +9,88 @@ const createBlog = async function (req, res) {
     let data = req.body;
 
     let Id = data.authorId;
-    let authId = await authorModel.findById(Id);
-    // for required fields
+    let {title, authorId, body, category, subcategory, tags} = data;
+    let array1 = [title, authorId, body, category, subcategory, tags];
+    let array2= [title, authorId, body, category]
+    let arrayOfString = ['title', 'authorId', 'body', 'category', 'subcategory', 'tags'];
+    let arrayOfString2 = ['title', 'authorId', 'body', 'category']
+
+    //if input is empty
     if (Object.keys(data).length == 0)
-      return res.status(400).send({ msg: "Object can not be empty" });
-    else if (!("title" in data) || !("body" in data) || !("category" in data)) {
-      return res.status(422).send({ msg: "required fields missing" });
-    } else if (!authId) {
+      return res.status(400).send({ msg: " input object can not be empty" });
+
+    for (let i = 0; i < array2.length; i++) {
+      // required field verification
+      let value = arrayOfString2[i];
+      if (!(value in data))
+      return res.status(422).send({ msg: value + " " + "is required field" });}
+      
+    for (let i = 0; i< array1.length; i++){
+
+      // status code  422 (Unprocessable Entity)
+
+      
+      //data type verification
+      let type = typeof array1[i];
+      if (type == "object")
+        return res.status(400).send({ msg: "input data can not be null" });
+      if (array1[i].toLowerCase() == "undefined")
+        return res.status(400).send({ msg: "input data can not be undefined" });
+
+     // condition for empty fields
+        if (array1[i].trim() == "")
+          return res
+        .status(400)
+        .send({ msg: arrayOfString[i] + " " + " can not be empty" });
+
+
+    let authId = await authorModel.findById(Id);
+    if (!authId) {
       return res.status(404).send({ msg: "Author does not exist" });
-    } else if (
-      data.authorId.trim() == "" ||
-      data.title.trim() == "" ||
-      data.body.trim() == "" ||
-      data.category.length == 0
-    ) {
-      return res.status(400).send({
-        msg: "required fields(title,body,authorId,category) can not be empty",
-      });
-    } else {
+    }
+
+    }
       let savedData = await blogModel.create(data);
       return res.status(201).send({ msg: savedData });
-    }
+
   } catch (error) {
     return res.status(500).send({ msg: error.message });
   }
 };
 
+
+
+
+
+    // // for required fields
+    // if (Object.keys(data).length == 0)
+    //   return res.status(400).send({ msg: "Object can not be empty" });
+    // if (!("title" in data) || !("body" in data) || !("category" in data)) {
+    //   return res.status(422).send({ msg: "required fields missing" });
+    // } 
+
+
+    // //data type verification
+
+    
+    // if (typeof data.authorId == "object" || typeof data.title == "object" || typeof data.body == "object" || typeof data.category == "object")
+    //         return res.status(400).send({ msg: "input data can not be null" })
+
+
+    // if (data.authorId.toLowerCase() == "undefined" || data.title.toLowerCase() == "undefined" || data.body.toLowerCase() == "undefined" || data.category.toLowerCase() == "undefined")
+    // return res.status(400).send({ msg: "input data can not be undefined" })
+
+           
+    // if (
+    //   data.authorId.trim() == "" ||
+    //   data.title.trim() == "" ||
+    //   data.body.trim() == "" ||
+    //   data.category.length == 0
+    // ) {
+    //   return res.status(400).send({
+    //     msg: "required fields(title,body,authorId,category) can not be empty",
+    //   });
+    // }
 module.exports.createBlog = createBlog;
 
 // written by aditya
@@ -106,6 +162,9 @@ let getBlogs = async function (req, res) {
       isPublished: true,
     };
     if (authorId) {
+        if(authorId.length != 24){
+            return res.status(400).send({msg: "invalid authorId"})
+        }
       obj.authorId = authorId;
       console.log(authorId);
     }

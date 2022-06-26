@@ -12,17 +12,17 @@ const { Authentication, Authorization,AuthorizationToQuary } = require("../middl
 // create a blog, edit a blog, get the list of blogs, delete a blog(s)
 
 
-router.post("/blogs", Authentication,AuthorizationToQuary, blogController.createBlog) 
-router.post("/authors", authorController.createAuthor);  
-router.post("/login", authorController.loginauth) 
-router.get("/blogs",Authentication,blogController.getBlogs); //error in code
+router.post("/blogs", Authentication,AuthorizationToQuary, blogController.createBlog) //if don't work use old code
+router.post("/authors", authorController.createAuthor);  //done
+router.post("/login", authorController.loginauth) //done
+router.get("/blogs",Authentication,blogController.getBlogs); //done
 
 
-router.put("/blogs/:blogId",Authentication,Authorization, blogController.updateBlogsById) 
+router.put("/blogs/:blogId",Authentication,Authorization, blogController.updateBlogsById) //done
 
-router.delete("/blogs/:blogId", Authentication, Authorization, blogController.isdeleted); 
+router.delete("/blogs/:blogId", Authentication, Authorization, blogController.isdeleted); //done    
 
-router.delete("/blogs", Authentication,AuthorizationToQuary, blogController.deleteByQuarry)  //
+router.delete("/blogs", Authentication,AuthorizationToQuary, blogController.deleteByQuarry)  //done
 
 
 

@@ -22,18 +22,22 @@ const createAuthor = async function (req, res) {
         return res.status(422).send({ msg: value + " " + "is required field" });
       // status code  422 (Unprocessable Entity)
 
-      // condition for empty fields
-      if (array1[i].trim() == "")
-        return res
-          .status(400)
-          .send({ msg: arrayOfString[i] + " " + " can not be empty" });
-
+      
       //data type verification
       let type = typeof array1[i];
       if (type == "object")
         return res.status(400).send({ msg: "input data can not be null" });
       if (array1[i].toLowerCase() == "undefined")
         return res.status(400).send({ msg: "input data can not be undefined" });
+
+      // condition for empty fields
+      if (array1[i].trim() == "")
+        return res
+          .status(400)
+          .send({ msg: arrayOfString[i] + " " + " can not be empty" });
+
+      
+
     }
 
     // email validation
