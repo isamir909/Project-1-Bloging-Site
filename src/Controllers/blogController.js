@@ -16,7 +16,7 @@ const createBlog = async function (req, res) {
     if (Object.keys(data).length == 0)
       return res.status(400).send({status:false, msg: "Object can not be empty" });
 
-    if(authId.length != 24){
+    if(Id.length != 24){
             return res.status(400).send({status:false,msg: "invalid authorId"}) }
 
     if (!authId) {
