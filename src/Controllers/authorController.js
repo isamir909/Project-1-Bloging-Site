@@ -65,7 +65,7 @@ const createAuthor = async function (req, res) {
       let checkAuthor= await authorModel.findOne({email:email})
       if(checkAuthor)return res.status(400).send({err:"this email is already in use"})
     let savedData = await authorModel.create(data);
-    res.status(201).send({ msg: savedData });
+    res.status(201).send({status:true, msg: savedData });
   } catch (error) {
     console.log(error);
     res.status(500).send({ msg: error.message });
@@ -113,7 +113,7 @@ let loginauth = async function (req, res) {
     );
 
     res.setHeader("x-api-key", key);
-    res.status(200).send({ key: key });
+    res.status(200).send({status:true, key: key });
   } catch (error) {
     res.status(500).send({ msg: error.message });
   }
