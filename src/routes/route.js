@@ -12,7 +12,7 @@ const { Authentication, Authorization,AuthorizationToQuary } = require("../middl
 // create a blog, edit a blog, get the list of blogs, delete a blog(s)
 
 
-router.post("/blogs", Authentication,AuthorizationToQuary, blogController.createBlog) //if don't work use old code
+router.post("/blogs", Authentication,AuthorizationToQuary, blogController.createBlog) //done
 router.post("/authors", authorController.createAuthor);  //done
 router.post("/login", authorController.loginauth) //done
 router.get("/blogs",Authentication,blogController.getBlogs); //done
