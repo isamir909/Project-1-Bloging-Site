@@ -27,6 +27,8 @@ const createAuthor = async function (req, res) {
       let type = typeof array1[i];
       if (type == "object")
         return res.status(400).send({ msg: "input data can not be null" });
+       if(type !="string" )
+       return res.status(400).send({msg:"input data must be string"}) 
       if (array1[i].toLowerCase() == "undefined")
         return res.status(400).send({ msg: "input data can not be undefined" });
 
