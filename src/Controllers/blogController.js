@@ -162,10 +162,8 @@ let isdeleted = async function (req, res) {
       return res.status(404).send({status:false, msg: "Blog id not found" });
 
     // if blog id is already deleted
-    // let ifAlreadyDeleted = await blogModel.findOne(
-    //   { _id: blogid },
-    //   { isDeleted: true }
-    // );
+  let ifAlreadyDeleted = await blogModel.findOne({ _id: blogid }, { isDeleted: true })
+  if(ifAlreadyDeleted.isDeleted)  return res.status(400).send({status:false, msg:"blog has been already deleted"})
 
     //    delete blog if it is not deleted
     let date = new Date();
