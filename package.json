@@ -1,4 +1,26 @@
 {
+  "name": "project-1",
+  "description": "Repository for backend cohort - Radon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isamir909/project-1.git"
+  },
+  "keywords": [
+    "Bloging-site"
+  ],
+  "author": "Samir,Animesh,Aditya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isamir909/project-1/issues"
+  },
+  "homepage": "https://github.com/isamir909/project-1#readme",
+ 
   "dependencies": {
     "body-parser": "^1.20.0",
     "email-validator": "^2.0.4",
@@ -10,4 +32,5 @@
     "replace": "^1.2.1",
     "validator": "^13.7.0"
   }
+ 
 }
