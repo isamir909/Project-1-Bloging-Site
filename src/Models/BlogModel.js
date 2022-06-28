@@ -40,9 +40,9 @@ const BlogSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    publishedAt: { type: Date },
+    publishedAt: { type: Date ,default:null},
     
-    deletedAt: { type: Date },
+    deletedAt: { type: Date,default:null },
   },
   { timestamps: true }
 );

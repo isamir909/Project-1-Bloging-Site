@@ -35,6 +35,10 @@ const createBlog = async function (req, res) {
         msg: "required fields(title,body,authorId,category) can not be empty",
       });
     }
+    if(data.isPublished){
+     let date=new Date()
+      data["publishedAt"]=date
+    }
     {
       let savedData = await blogModel.create(data);
       return res.status(201).send({status:true, data: savedData });
@@ -91,7 +95,7 @@ const updateBlogsById = async function (req, res) {
     }
     blogData.publishedAt = Date(); //Fri Apr 29 2022 11:14:26 GMT+0530 (India Standard Time)
     blogData.isPublished = true;
-    blogData.save();
+    await blogData.save();
 
     res.status(200).send({ status: true, data: blogData });
   } catch (error) {
@@ -235,10 +239,12 @@ let deleteByQuarry = async function (req, res) {
           filter["category"] = category
       }
       if (idPresent(subcategory)) {
-          filter["subcategory"] = subcategory
+        const subarray= subcategory.trim().split(',').map(subcat =>subcat.trim());
+          filter["subcategory"] ={$all:subcategory} 
       }
       if (idPresent(tags)) {
-          filter["tags"] = tags
+        const tagarray= tags.trim().split(',').map(tag =>tag.trim());
+          filter["tags"] = {$all:tags}
       }
 
 

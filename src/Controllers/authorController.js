@@ -10,6 +10,11 @@ const createAuthor = async function (req, res) {
     let { email, fname, title, lname, password } = data;
     let array1 = [email, fname, title, lname, password];
     let arrayOfString = ["email", "fname", "title", "lname", "password"];
+  //   for (let i = 0; i < requiredKeys.length; i++) {
+  //     if (!(incomingKeys.includes(requiredKeys[i]))) {
+  //         return res.status(400).send({ status: false, message: `${requiredKeys[i]} is required.` })
+  //     }
+  // }
 
     //if input is empty
     if (Object.keys(data).length == 0)
@@ -36,7 +41,7 @@ const createAuthor = async function (req, res) {
       if (array1[i].trim() == "")
         return res
           .status(400)
-          .send({ msg: arrayOfString[i] + " " + " can not be empty" });
+          .send({ msg: arrayOfString[i] +"" + " can not be empty" });
 
       
 
@@ -102,7 +107,7 @@ let loginauth = async function (req, res) {
     // if password is wrong
 
     if (validateEmail.password != password)
-      return res.status(403).send({status:false, msg: "invalid password" });
+      return res.status(401).send({status:false, msg: "invalid password" });
     //403 Forbidden uch as insufficient rights to a resource.
 
     let key = jwt.sign(
@@ -122,5 +127,7 @@ let loginauth = async function (req, res) {
 module.exports.loginauth = loginauth;
 module.exports.createAuthor = createAuthor;
 
-// let email = data.email.split(" ").join("").trim();
+
+
+// let emailid = data.email.split(" ").join("").trim();
 // let password = data.password.split(" ").join("").trim();
