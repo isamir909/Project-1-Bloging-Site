@@ -11,7 +11,7 @@ router.post("/blogs", Authentication,AuthorizationToQuary, blogController.create
 router.post("/authors", authorController.createAuthor); 
 
 //....................Author login........../
-router.post("/login", authorController.loginauth); 
+router.post("/login", authorController.loginAuthor); 
 
 //....................get blog........../
 router.get("/blogs",Authentication,blogController.getBlogs);

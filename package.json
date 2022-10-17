@@ -1,9 +1,8 @@
 {
-  "name": "project-1",
-  "description": "Repository for backend cohort - Radon",
+  "name": "project01-blogging-site",
   "version": "1.0.0",
+  "description": "this is the replica of the blogging site which contains two features 1.creating user 2.creating blog",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,7 +11,8 @@
     "url": "git+https://github.com/isamir909/project-1.git"
   },
   "keywords": [
-    "Bloging-site"
+    "BloggingSite",
+    "Blog"
   ],
   "author": "Samir,Animesh,Aditya",
   "license": "ISC",
