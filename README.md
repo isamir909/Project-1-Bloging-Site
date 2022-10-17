@@ -33,7 +33,7 @@ createdAt,
 - Make sure the authorId is a valid authorId by checking the author exist in the authors collection.
 - Return HTTP status 201 on a succesful blog creation. Also return the blog document. The response should be a JSON object like [this](#successful-response-structure) 
 - Create atleast 5 blogs for each author
-
+  
 - Return HTTP status 400 for an invalid request with a response body like [this](#error-response-structure)
 
 ### GET /blogs
@@ -135,4 +135,3 @@ Refer below sample
 
 #### Refer https://jsonplaceholder.typicode.com/guide/ for some fake blogs data.
 
-#### Note: Create a group database and use the same database in connection string by replacing `groupXDatabase
