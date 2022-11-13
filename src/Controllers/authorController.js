@@ -1,8 +1,11 @@
 const authorModel = require("../Models/AuthorModel");
+
 let validator = require("validator");
-let eValidator = require("email-validator");
+
 let jwt = require("jsonwebtoken");
-const {isValid}=require("../validator/validations")
+
+const { isValid } = require("../validator/validations")
+
 
 
 const createAuthor = async function (req, res) {
@@ -14,43 +17,43 @@ const createAuthor = async function (req, res) {
     if (Object.keys(data).length == 0)
       return res.status(400).send({ status: false, msg: " input object can not be empty" });
 
-    if(!isValid(email)){
+    if (!isValid(email)) {
       return res.status(400).send({ status: false, msg: " email is required" });
     }
-    if(!isValid(fname)){
+    if (!isValid(fname)) {
       return res.status(400).send({ status: false, msg: " fname is required" });
     }
-    if(!isValid(lname)){
+    if (!isValid(lname)) {
       return res.status(400).send({ status: false, msg: " lname is required" });
     }
-    if(!isValid(title)){
+    if (!isValid(title)) {
       return res.status(400).send({ status: false, msg: " title is required" });
     }
-    if(!isValid(password)){
+    if (!isValid(password)) {
       return res.status(400).send({ status: false, msg: " password is required" });
     }
 
     // email validation
-    if (!eValidator.validate(data.email))return res.status(400).send({status: false,msg: "You have entered an invalid email address!"});
+    if (!validator.isEmail(email.trim())) return res.status(400).send({ status: false, msg: "You have entered an invalid email address!" });
 
-    // name alphabatic  validation 
+    // name alphabetic  validation 
     let LnameValidate = validator.isAlpha(data.lname);
     let FnameValidate = validator.isAlpha(data.fname);
 
     if (LnameValidate == false || FnameValidate == false)
-      return res.status(400).send({status: false,msg: "LastName and firstName must be between A-z or a-z ",});
+      return res.status(400).send({ status: false, msg: "LastName and firstName must be between A-z or a-z ", });
 
-      // used map to reduce time complexity
-      let map={"Mr":1, "Mrs":1, "Miss":1}
-      if(map[title.trim()]===undefined){
-        return res.status(400).send({ status: false, msg: "title must be  Mr,Mrs or Miss" });
-      }
+    // used map to reduce time complexity
+    let map = { "Mr": 1, "Mrs": 1, "Miss": 1 }
+    if (map[title.trim()] === undefined) {
+      return res.status(400).send({ status: false, msg: "title must be  Mr,Mrs or Miss" });
+    }
     // if (!["Mr", "Mrs", "Miss"].includes(data.title.trim()))
     //   return res.status(400).send({ status: false, msg: "title must be  Mr,Mrs or Miss" });
 
     let checkAuthor = await authorModel.findOne({ email: email });
-    if (checkAuthor)return res.status(400).send({ status: false, msg: "this email is already in use" });
-   
+    if (checkAuthor) return res.status(400).send({ status: false, msg: "this email is already in use" });
+
     let savedData = await authorModel.create(data);
     res.status(201).send({ status: true, data: savedData });
 
@@ -65,23 +68,17 @@ let loginAuthor = async function (req, res) {
     let data = req.body;
     let { email, password } = data;
 
-   if(!isValid(email)){
-    return res.status(400).send({ status: false, msg: " email is required" });
-   }
-   if(!isValid(password)){
-    return res.status(400).send({ status: false, msg: " password is required" });
-  }
-    // email validation
-    let validate = eValidator.validate(email.trim());
-    if (validate == false)
-      return res.status(400).send({status: false,msg: "You have entered an invalid email address!"});
+    if (!isValid(email)) {
+      return res.status(400).send({ status: false, msg: " email is required" });
+    }
+    if (!isValid(password)) {
+      return res.status(400).send({ status: false, msg: " password is required" });
+    }
 
-    // if user not found
+    if (!validator.isEmail(email.trim())) return res.status(400).send({ status: false, msg: "You have entered an invalid email address!" });
+
     let validateEmail = await authorModel.findOne({ email: email.trim() });
-    if (!validateEmail)
-      return res.status(404).send({ status: false, msg: "user not found" });
-
-    // if password is wrong
+    if (!validateEmail) return res.status(404).send({ status: false, msg: "user not found" });
 
     if (validateEmail.password != password)
       return res.status(401).send({ status: false, msg: "invalid password" });
@@ -100,7 +97,7 @@ let loginAuthor = async function (req, res) {
   }
 };
 
-module.exports = {loginAuthor,createAuthor}
+module.exports = { loginAuthor, createAuthor }
 
 
 
